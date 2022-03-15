@@ -139,11 +139,16 @@
                             <form asp-action="GetBusJourneys" asp-controller="Home" method="post">
                                 <div class="form-group">
                                     <span class="form-label">From</span>
-                                    <select class="selectData form-control" id="from" name="from" required></select>
+                                    <select class="selectData form-control" id="from" name="from" required>
+                                        <option value="349" selected>İstanbul Avrupa</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">To</span>
-                                    <select class="selectData form-control" id="to" name="to" required></select>
+                                    <select class="selectData form-control" id="to" name="to" required>
+                                        <option value="356" selected>Ankara</option>
+
+                                    </select>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -246,6 +251,27 @@
         });
         $("#tomorrow").click(function() {
             document.getElementById("date").value = "@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")";
+        });
+
+
+        //TODO: Can be more efficient with one function (from and to)
+        $('#from').change(function() {
+            var fromValue = $('#from :selected').val();
+            var toValue = $('#to :selected').val();
+
+            if (fromValue == toValue) {
+                alert("You can't select same location!");
+                $('#from').val('');
+            }
+        });
+        $('#to').change(function() {
+            var fromValue = $('#from :selected').val();
+            var toValue = $('#to :selected').val();
+
+            if (fromValue == toValue) {
+                alert("You can't select same location!");
+                $('#to').val('');
+            }
         });
     </script>
 </body>

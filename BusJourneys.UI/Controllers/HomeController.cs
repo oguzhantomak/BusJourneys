@@ -40,6 +40,11 @@ namespace BusJourneys.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> GetBusJourneys(int from, int to, DateTime date)
         {
+            if (from == 0 || to == 0 || date == null)
+            {
+                return BadRequest();
+            }
+
             var busJourneys = await _sessionControl.GetBusJourneys(from, to, date);
             return View(busJourneys);
         }
