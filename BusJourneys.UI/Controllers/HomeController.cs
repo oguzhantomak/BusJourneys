@@ -43,8 +43,17 @@ namespace BusJourneys.UI.Controllers
             {
                 list.Add(busLocations.First()); //İstanbul Avrupa
                 list.Add(busLocations.Skip(2).Take(1).First()); //Ankara for looks like obilet.com
-                ViewBag.Date = DateTime.Now;
+
+                //Datetime things...........
+                DateTime utc = DateTime.UtcNow;
+                TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time");
+                DateTime time = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
+
+                ViewBag.Date = time;
+
             }
+
+            
 
             return View(list);
         }
