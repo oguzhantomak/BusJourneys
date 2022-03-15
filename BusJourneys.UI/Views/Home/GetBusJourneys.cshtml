@@ -59,9 +59,13 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="display: flex; align-items: center">
-                    <button type="button" class="btn btn-primary btn-block">
+                    @*<button type="button" class="btn btn-primary btn-block">
                         <span class="badge bg-primary">@item.Journey.InternetPrice @item.Journey.Currency</span>
-                    </button>
+                        </button>*@
+                    @{
+                        var departureDate = item.Journey.Departure.ToString("yyyy-MM-dd");
+                    }
+                    <a class="btn btn-primary" href="https://www.obilet.com/seferler/@item.OriginLocationId-@item.DestinationLocationId/@departureDate/@item.Id" role="button">@item.Journey.InternetPrice @item.Journey.Currency</a>
                 </div>
             </div>
         </div>

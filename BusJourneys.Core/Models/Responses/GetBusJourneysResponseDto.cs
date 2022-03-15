@@ -28,6 +28,12 @@ public class GetBusJourneysResponseDto
         [JsonPropertyName("destination-location")]
         public string? DestinationLocation { get; set; }
 
+        [JsonPropertyName("origin-location-id")]
+        public int OriginLocationId { get; set; }
+
+        [JsonPropertyName("destination-location-id")]
+        public int DestinationLocationId { get; set; }
+
         public JourneyDto Journey { get; set; }
         public class JourneyDto
         {
@@ -45,7 +51,6 @@ public class GetBusJourneysResponseDto
             public TimeSpan? Duration { get; set; }
             public string? Origin { get; set; }
             public string? Destination { get; set; }
-
         }
     }
 }
