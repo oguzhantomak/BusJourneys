@@ -144,6 +144,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <button style="float: " type="button" id="changeLocations" class="btn btn-primary btn-lg btn-block">Change Locations</button>
+                                </div>
+                                <div class="form-group">
                                     <span class="form-label">To</span>
                                     <select class="selectData form-control" id="to" name="to" required>
                                         <option value="356" selected>Ankara</option>
@@ -261,7 +264,7 @@
 
             if (fromValue == toValue) {
                 alert("You can't select same location!");
-                $('#from').val('');
+                $('#from').empty();
             }
         });
         $('#to').change(function() {
@@ -270,7 +273,29 @@
 
             if (fromValue == toValue) {
                 alert("You can't select same location!");
-                $('#to').val('');
+                $('#to').empty();
+            }
+        });
+
+        $("#changeLocations").click(function() {
+            var fromValue = $('#from :selected').val();
+
+            console.log(fromValue);
+
+            var toValue = $('#to :selected').val();
+            var fromText = $('#from :selected').text();
+            var toText = $('#to :selected').text();
+
+            $('#from').empty();
+            $('#to').empty();
+
+            if (fromValue != undefined) {
+                $('#to').append('<option value="' + fromValue + '" selected>' + fromText + '</option>');
+
+            }
+            if (toValue != undefined) {
+                $('#from').append('<option value="' + toValue + '" selected>' + toText + '</option>');
+
             }
         });
     </script>

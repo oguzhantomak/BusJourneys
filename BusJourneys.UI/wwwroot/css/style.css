@@ -14,7 +14,8 @@
 
 #booking {
 	font-family: 'Montserrat', sans-serif;
-	background-image: url('../img/background.jpg');
+	/*background-image: url('../img/background.jpg');*/
+	background-image: url('https://picsum.photos/1920/1080');
 	background-size: cover;
 	background-position: center;
 }
