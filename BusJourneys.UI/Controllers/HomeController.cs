@@ -18,9 +18,35 @@ namespace BusJourneys.UI.Controllers
             _sessionControl = sessionControl;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var busLocations = await _sessionControl.GetBusLocations("");
+
+            var list = new List<GetBusLocationsResponseDto.DataDto>();
+
+            //Try to get ids from cookie
+            var from = Request.Cookies["from"];
+            var to = Request.Cookies["to"];
+            var date = Request.Cookies["date"];
+
+            // When Index loads if cookie is not null use these to set values to "From", "To" and "Date"
+            if (from != null && to != null && date != null)
+            {
+                int fromId = Convert.ToInt32(from);
+                int toId = Convert.ToInt32(to);
+
+                list.Add(busLocations.Where(x => x.Id == fromId).FirstOrDefault());
+                list.Add(busLocations.Where(x => x.Id == toId).FirstOrDefault());
+                ViewBag.Date = date;
+            }
+            else
+            {
+                list.Add(busLocations.First()); //İstanbul Avrupa
+                list.Add(busLocations.Skip(2).Take(1).First()); //Ankara for looks like obilet.com
+                ViewBag.Date = DateTime.Now;
+            }
+
+            return View(list);
         }
 
         public async Task<SearchItemsDto> GetBusLocations(string key)
@@ -45,7 +71,16 @@ namespace BusJourneys.UI.Controllers
                 return BadRequest();
             }
 
+            // Get the bus journeys from api
             var busJourneys = await _sessionControl.GetBusJourneys(from, to, date);
+
+            //Cookie settings for last search
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddHours(1);
+            Response.Cookies.Append("from", from.ToString(), option);
+            Response.Cookies.Append("to", to.ToString(), option);
+            Response.Cookies.Append("date", date.ToString(), option);
+
             return View(busJourneys);
         }
 

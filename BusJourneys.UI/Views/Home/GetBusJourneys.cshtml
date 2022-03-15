@@ -2,14 +2,68 @@
 @{
     ViewData["Title"] = "GetBusJourneys";
 }
+<div class="container">
+    <a class="btn btn-lg btn-primary mb-2 mt-2" href="/" role="button">Back</a>
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            No bus journeys found.
+        </div>
+    }
+    <div class="row" style="display: flex">
+        <img src="http://placekitten.com/1000/1000" />
+    </div>
 
-<ul class="list-group">
+
     @foreach (var item in Model)
     {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            #@item.Journey.Departure# @item.Journey.Origin - @item.Journey.Destination
-            <span class="badge bg-primary rounded-pill">@item.Journey.InternetPrice @item.Journey.Currency</span>
-        </li>
-    }
-</ul>
+        <div class="container">
+            <div class="card mb-3" @*style="max-width: 540px;"*@>
+                <div class="row g-0">
+                    <div class="col-md-3" style="display: flex; align-items: center">
+                        <img src="https://s3.eu-central-1.amazonaws.com/static.obilet.com/images/partner/@item.PartnerId-sm.png" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="p-2 bd-highlight">Kalkış</div>
 
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-2 bd-highlight">Varış</div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="p-2 bd-highlight">@item.Journey.Departure.ToString("HH:mm")</div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-2 bd-highlight">@item.Journey.Arrival.ToString("HH:mm")</div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="card-text">@item.Journey.Origin</span>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="card-text">@item.Journey.Destination</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="display: flex; align-items: center">
+                        <button type="button" class="btn btn-primary btn-block">
+                            <span class="badge bg-primary">@item.Journey.InternetPrice @item.Journey.Currency</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -111,14 +111,24 @@ public class SessionControl : ISessionControl
         };
 
         using var client = new HttpClient();
+
+        //Set token to header
         client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
+
+        //Method type and getting request url from appsettings.json
         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusLocationsApiUrl").Value));
+
+        //Set request content
         request.Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
         request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+        //Send request
         HttpResponseMessage response = await client.SendAsync(request);
 
+        //Get response content
         var responseString = await response.Content.ReadAsStringAsync();
 
+        //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusLocationsResponseDto>(responseString, new JsonSerializerOptions
         {
             // Case insensitive when deserializing
@@ -155,14 +165,24 @@ public class SessionControl : ISessionControl
         };
 
         using var client = new HttpClient();
+
+        //Set token to header
         client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
+
+        //Method type and getting request url from appsettings.json
         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusJourneysApiUrl").Value));
-        var jj = JsonSerializer.Serialize(requestModel);
+
+        //Set request content
         request.Content = new StringContent(JsonSerializer.Serialize(requestModel), Encoding.UTF8, "application/json");
         request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+        //Send request
         HttpResponseMessage response = await client.SendAsync(request);
+
+        //Get response content
         var responseString = await response.Content.ReadAsStringAsync();
 
+        //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusJourneysResponseDto>(responseString, new JsonSerializerOptions
         {
             // Case insensitive when deserializing

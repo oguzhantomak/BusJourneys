@@ -23,6 +23,10 @@ public class GetBusJourneysResponseDto
 
         [JsonPropertyName("available-seats")]
         public int? AvailableSeats { get; set; }
+        [JsonPropertyName("origin-location")]
+        public string? OriginLocation { get; set; }
+        [JsonPropertyName("destination-location")]
+        public string? DestinationLocation { get; set; }
 
         public JourneyDto Journey { get; set; }
         public class JourneyDto
@@ -31,8 +35,8 @@ public class GetBusJourneysResponseDto
             {
                 Duration = TimeSpan.Zero;
             }
-            public DateTime? Departure { get; set; }
-            public DateTime? Arrival { get; set; }
+            public DateTime Departure { get; set; }
+            public DateTime Arrival { get; set; }
 
             [JsonPropertyName("internet-price")]
             public decimal InternetPrice { get; set; }
