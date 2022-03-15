@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusJourneys.UI", "BusJourneys.UI\BusJourneys.UI.csproj", "{84B20895-5956-4D22-843D-ACD614A5407B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusJourneys.Core", "BusJourneys.Core\BusJourneys.Core.csproj", "{377BE78A-3307-4133-A78E-521AC6BB2194}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{84B20895-5956-4D22-843D-ACD614A5407B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B20895-5956-4D22-843D-ACD614A5407B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B20895-5956-4D22-843D-ACD614A5407B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{377BE78A-3307-4133-A78E-521AC6BB2194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{377BE78A-3307-4133-A78E-521AC6BB2194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{377BE78A-3307-4133-A78E-521AC6BB2194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{377BE78A-3307-4133-A78E-521AC6BB2194}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
