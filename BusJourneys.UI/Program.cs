@@ -12,6 +12,9 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromHours(1);
 });
 
+// Add detection service
+builder.Services.AddDetection();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -27,6 +30,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseDetection();
 
 app.UseRouting();
 

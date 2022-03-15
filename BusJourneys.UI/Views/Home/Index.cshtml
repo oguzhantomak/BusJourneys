@@ -2,7 +2,92 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-action="GetBusJourneys" asp-controller="Home" method="post">
+    <div class="mb-3 form-group">
+        <label for="from" class="form-label">Nereden</label>
+        <div class="col-md-6">
+            <select class="selectData form-control" id="from" name="from"></select>
+        </div>
+    </div>
+    <div class="mb-3 form-group">
+        <label for="to" class="form-label">Nereye</label>
+        <div class="col-md-6">
+            <select class="selectData form-control" id="to" name="to"></select>
+        </div>
+    </div>
+    <div class="mb-3 form-group">
+        <label for="date" class="form-label">Ne zaman</label>
+        <div class="col-md-6">
+            <input type="date" id="date" name="date" />
+        </div>
+    </div>
+
+    <button type="submit" id="getBusJourneys" class="btn btn-primary">Bileti Bul</button>
+</form>
+
+@section Scripts
+{
+<script>
+    $(document).ready(function () {
+
+        $(".selectData").select2({
+            ajax: {
+                type: 'GET',
+                url: "/Home/GetBusLocations",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        key: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    console.log("liste bu", data);
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1,
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            // Set the contents of the element with the result data
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            // Set the contents' text
+            $container.find(".select2-result-repository__title").text(repo.name);
+            return $container;
+
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.name || repo.text;
+        }
+
+
+    });
+</script>
+}

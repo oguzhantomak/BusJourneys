@@ -94,4 +94,80 @@ public class SessionControl : ISessionControl
         //TODO: Check if the session is valid/unvalid
         return model != null ? model : new SessionGetDto();
     }
+
+    public async Task<List<GetBusLocationsResponseDto.DataDto>> GetBusLocations(string key)
+    {
+        // Create new request model
+        var model = new GetBusLocationsRequestDto
+        {
+            Data = key,
+            Date = DateTime.Now.ToString(),
+            DeviceSession = new GetBusLocationsRequestDto.DeviceSessionDto
+            {
+                DeviceId = _session.Data.DeviceId,
+                SessionId = _session.Data.SessionId
+            },
+            Language = "tr-TR"
+        };
+
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusLocationsApiUrl").Value));
+        request.Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        HttpResponseMessage response = await client.SendAsync(request);
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        var responseModel = JsonSerializer.Deserialize<GetBusLocationsResponseDto>(responseString, new JsonSerializerOptions
+        {
+            // Case insensitive when deserializing
+            PropertyNameCaseInsensitive = true
+        });
+
+        //TODO: Check if the response is valid/unvalid
+        return responseModel.Data;
+    }
+
+    public async Task<List<GetBusJourneysResponseDto.DataDto>> GetBusJourneys(int from, int to, DateTime date)
+    {
+        // Create new request model
+        var requestModel = new GetBusJourneysRequestDto()
+        {
+            // Set the session information
+            DeviceSession = new GetBusJourneysRequestDto.DeviceSessionModel
+            {
+                SessionId = _session.Data.SessionId,
+                DeviceId = _session.Data.DeviceId
+            },
+            // Set the journey information
+            Data = new GetBusJourneysRequestDto.DataDto
+            {
+                OriginId = from,
+                DestinationId = to,
+                // Changed date format to API documentation
+                DepartureDate = date.ToString("yyyy-MM-dd"),
+            },
+
+            // Changed date format to API documentation
+            Date = DateTime.Now.ToString("yyyy-MM-dd"),
+            Language = "tr-TR"
+        };
+
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusJourneysApiUrl").Value));
+        var jj = JsonSerializer.Serialize(requestModel);
+        request.Content = new StringContent(JsonSerializer.Serialize(requestModel), Encoding.UTF8, "application/json");
+        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        HttpResponseMessage response = await client.SendAsync(request);
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        var responseModel = JsonSerializer.Deserialize<GetBusJourneysResponseDto>(responseString, new JsonSerializerOptions
+        {
+            // Case insensitive when deserializing
+            PropertyNameCaseInsensitive = true
+        });
+        return responseModel.Data;
+    }
 }
