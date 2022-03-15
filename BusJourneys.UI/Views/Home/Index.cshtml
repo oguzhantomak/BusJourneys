@@ -1,93 +1,252 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = "Home Page";
-}
+    }
 
-<form asp-action="GetBusJourneys" asp-controller="Home" method="post">
+    <form asp-action="GetBusJourneys" asp-controller="Home" method="post">
     <div class="mb-3 form-group">
-        <label for="from" class="form-label">Nereden</label>
-        <div class="col-md-6">
-            <select class="selectData form-control" id="from" name="from"></select>
-        </div>
+    <label for="from" class="form-label">Nereden</label>
+    <div class="col-md-6">
+    <select class="selectData form-control" id="from" name="from"></select>
+    </div>
     </div>
     <div class="mb-3 form-group">
-        <label for="to" class="form-label">Nereye</label>
-        <div class="col-md-6">
-            <select class="selectData form-control" id="to" name="to"></select>
-        </div>
+    <label for="to" class="form-label">Nereye</label>
+    <div class="col-md-6">
+    <select class="selectData form-control" id="to" name="to"></select>
+    </div>
     </div>
     <div class="mb-3 form-group">
-        <label for="date" class="form-label">Ne zaman</label>
-        <div class="col-md-6">
-            <input type="date" id="date" name="date" />
-        </div>
+    <label for="date" class="form-label">Ne zaman</label>
+    <div class="col-md-6">
+    <input type="date" id="date" name="date" />
+    </div>
     </div>
 
     <button type="submit" id="getBusJourneys" class="btn btn-primary">Bileti Bul</button>
-</form>
+    </form>
 
-@section Scripts
-{
-<script>
+    @section Scripts
+    {
+    <script>
     $(document).ready(function () {
 
-        $(".selectData").select2({
-            ajax: {
-                type: 'GET',
-                url: "/Home/GetBusLocations",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        key: params.term, // search term
-                        page: params.page
-                    };
-                },
-                processResults: function (data, params) {
-                    console.log("liste bu", data);
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    params.page = params.page || 1;
+    $(".selectData").select2({
+    ajax: {
+    type: 'GET',
+    url: "/Home/GetBusLocations",
+    dataType: 'json',
+    delay: 250,
+    data: function (params) {
+    return {
+    key: params.term, // search term
+    page: params.page
+    };
+    },
+    processResults: function (data, params) {
+    console.log("liste bu", data);
+    // parse the results into the format expected by Select2
+    // since we are using custom formatting functions we do not need to
+    // alter the remote JSON data, except to indicate that infinite
+    // scrolling can be used
+    params.page = params.page || 1;
 
-                    return {
-                        results: data.items,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            minimumInputLength: 1,
-            templateResult: formatRepo,
-            templateSelection: formatRepoSelection
-        });
+    return {
+    results: data.items,
+    pagination: {
+    more: (params.page * 30) < data.total_count
+    }
+    };
+    },
+    cache: true
+    },
+    minimumInputLength: 1,
+    templateResult: formatRepo,
+    templateSelection: formatRepoSelection
+    });
 
-        function formatRepo(repo) {
-            if (repo.loading) {
-                return repo.text;
-            }
+    function formatRepo(repo) {
+    if (repo.loading) {
+    return repo.text;
+    }
 
-            // Set the contents of the element with the result data
-            var $container = $(
-                "<div class='select2-result-repository clearfix'>" +
-                "<div class='select2-result-repository__title'></div>" +
-                "</div>" +
-                "</div>"
-            );
+    // Set the contents of the element with the result data
+    var $container = $(
+    "<div class='select2-result-repository clearfix'>" +
+    "<div class='select2-result-repository__title'></div>" +
+    "</div>" +
+    "</div>"
+    );
 
-            // Set the contents' text
-            $container.find(".select2-result-repository__title").text(repo.name);
-            return $container;
+    // Set the contents' text
+    $container.find(".select2-result-repository__title").text(repo.name);
+    return $container;
 
-        }
+    }
 
-        function formatRepoSelection(repo) {
-            return repo.name || repo.text;
-        }
+    function formatRepoSelection(repo) {
+    return repo.name || repo.text;
+    }
 
 
     });
-</script>
+    </script>
+    }*@
+
+@{
+    Layout = null;
 }
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>Booking</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BusJourneys.UI.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" />
+
+    <!-- Select2.js CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div id="booking" class="section">
+        <div class="section-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-md-push-5">
+                        <div class="booking-cta">
+                            <h1>Make your reservation</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque
+                                ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi.
+                                Perspiciatis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-md-pull-7">
+                        <div class="booking-form">
+                            <form asp-action="GetBusJourneys" asp-controller="Home" method="post">
+                                <div class="form-group">
+                                    <span class="form-label">From</span>
+                                    <select class="selectData form-control" id="from" name="from" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <span class="form-label">To</span>
+                                    <select class="selectData form-control" id="to" name="to" required></select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <span class="form-label">Date</span>
+                                            <input value="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" id="date" type="date" name="date" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-warning btn-block" id="today">Today</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <button style="float: right" type="button" class="btn btn-info btn-block" id="tomorrow">Tomorrow</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-btn">
+                                    <button class="submit-btn btn-block">Check availability</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Select2.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".selectData").select2({
+                ajax: {
+                    type: 'GET',
+                    url: "/Home/GetBusLocations",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            key: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        console.log("liste bu", data);
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                minimumInputLength: 1,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+
+            function formatRepo(repo) {
+                if (repo.loading) {
+                    return repo.text;
+                }
+
+                // Set the contents of the element with the result data
+                var $container = $(
+                    "<div class='select2-result-repository clearfix'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "</div>" +
+                    "</div>"
+                );
+
+                // Set the contents' text
+                $container.find(".select2-result-repository__title").text(repo.name);
+                return $container;
+
+            }
+
+            function formatRepoSelection(repo) {
+                return repo.name || repo.text;
+            }
+            });
+
+        $("#today").click(function() {
+            document.getElementById("date").value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+        });
+        $("#tomorrow").click(function() {
+            document.getElementById("date").value = "@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")";
+        });
+    </script>
+</body>
+</html>
