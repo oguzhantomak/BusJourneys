@@ -1,10 +1,15 @@
-﻿@model List<BusJourneys.Core.Models.Responses.GetBusJourneysResponseDto.DataDto>
+﻿@model BusJourneys.Core.Models.Responses.GetBusJourneysResponseDto
 @{
     ViewData["Title"] = "GetBusJourneys";
 }
 <div class="container">
     <a class="btn btn-lg btn-primary mb-2 mt-2" href="/" role="button">Back</a>
-    @if (Model.Count == 0)
+    <button type="button" class="btn btn-danger btn-lg" disabled>@Model.Data.First().OriginLocation - @Model.Data.First().DestinationLocation</button>
+    <button type="button" class="btn btn-danger btn-lg" disabled>@Model.Data.First().Journey.Departure.ToString("dd-MM-yyyy")</button>
+    
+    @*<h1 style="display: inline" class="mb-2 mt-3"><span class="badge bg-secondary">@Model.Data.First().OriginLocation - @Model.Data.First().DestinationLocation</span></h1>
+    <h1 style="display: inline"><span class="badge bg-secondary">@Model.Data.First().Journey.Departure.ToString("dd-MM-yyyy")</span></h1>*@
+    @if (Model.Data.Count == 0)
     {
         <div class="alert alert-danger" role="alert">
             No bus journeys found.
@@ -16,7 +21,7 @@
     }
 </div>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Data)
 {
     <div class="container">
         <div class="card mb-3" @*style="max-width: 540px;"*@>

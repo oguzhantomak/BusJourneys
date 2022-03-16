@@ -49,7 +49,7 @@ namespace BusJourneys.UI.Controllers
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time");
                 DateTime time = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
 
-                ViewBag.Date = time;
+                ViewBag.Date = time.AddDays(1);
 
             }
 

@@ -139,7 +139,7 @@ public class SessionControl : ISessionControl
         return responseModel.Data;
     }
 
-    public async Task<List<GetBusJourneysResponseDto.DataDto>> GetBusJourneys(int from, int to, DateTime date)
+    public async Task<GetBusJourneysResponseDto> GetBusJourneys(int from, int to, DateTime date)
     {
         // Create new request model
         var requestModel = new GetBusJourneysRequestDto()
@@ -188,6 +188,6 @@ public class SessionControl : ISessionControl
             // Case insensitive when deserializing
             PropertyNameCaseInsensitive = true
         });
-        return responseModel.Data;
+        return responseModel;
     }
 }
