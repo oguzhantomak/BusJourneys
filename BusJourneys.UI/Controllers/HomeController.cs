@@ -53,7 +53,7 @@ namespace BusJourneys.UI.Controllers
 
             }
 
-            
+
 
             return View(list);
         }
@@ -91,6 +91,11 @@ namespace BusJourneys.UI.Controllers
             Response.Cookies.Append("date", date.ToString(), option);
 
             return View(busJourneys);
+        }
+
+        public async Task<IActionResult> GetBusJourneys()
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()
