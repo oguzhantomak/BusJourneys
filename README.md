@@ -12,6 +12,9 @@ Project URL: https://busjourneys.azurewebsites.net
 Project is created with:
 * C# with .NET 6
 * MVC
+* LINQ
+* JSON
+* Session
 * N Layer Architecture
 * API consume - Serialize/Deserialize
 * Bootstrap
