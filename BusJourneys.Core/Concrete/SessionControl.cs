@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using BusJourneys.Core.Abstract;
+using BusJourneys.Core.Helper.Methods;
 using BusJourneys.Core.Models.Requests;
 using BusJourneys.Core.Models.Responses;
 using Microsoft.AspNetCore.Http;
@@ -67,22 +68,8 @@ public class SessionControl : ISessionControl
             }
         };
 
-        using var client = new HttpClient();
-
-        //Set token to header
-        client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
-
-        //Method type and getting request url from appsettings.json
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetSessionApiUrl").Value));
-
-        //Set request content
-        request.Content = new StringContent(JsonSerializer.Serialize(session), Encoding.UTF8, "application/json");
-        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-        HttpResponseMessage response = await client.SendAsync(request);
-
         //Get response content
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await RequestToAPI.Request(_configuration, "GetSessionApiUrl", session);
 
         //Deserialize response content
         var model = JsonSerializer.Deserialize<SessionGetDto>(responseString, new JsonSerializerOptions
@@ -110,23 +97,8 @@ public class SessionControl : ISessionControl
             Language = "tr-TR"
         };
 
-        using var client = new HttpClient();
-
-        //Set token to header
-        client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
-
-        //Method type and getting request url from appsettings.json
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusLocationsApiUrl").Value));
-
-        //Set request content
-        request.Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
-        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-        //Send request
-        HttpResponseMessage response = await client.SendAsync(request);
-
         //Get response content
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await RequestToAPI.Request(_configuration, "GetBusLocationsApiUrl", model);
 
         //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusLocationsResponseDto>(responseString, new JsonSerializerOptions
@@ -164,23 +136,8 @@ public class SessionControl : ISessionControl
             Language = "tr-TR"
         };
 
-        using var client = new HttpClient();
-
-        //Set token to header
-        client.DefaultRequestHeaders.Add("Authorization", _configuration.GetSection("Token").Value);
-
-        //Method type and getting request url from appsettings.json
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(_configuration.GetSection("GetBusJourneysApiUrl").Value));
-
-        //Set request content
-        request.Content = new StringContent(JsonSerializer.Serialize(requestModel), Encoding.UTF8, "application/json");
-        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-        //Send request
-        HttpResponseMessage response = await client.SendAsync(request);
-
         //Get response content
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await RequestToAPI.Request(_configuration, "GetBusJourneysApiUrl", requestModel);
 
         //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusJourneysResponseDto>(responseString, new JsonSerializerOptions
