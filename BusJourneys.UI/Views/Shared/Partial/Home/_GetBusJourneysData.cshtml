@@ -1,0 +1,55 @@
+﻿@foreach (var item in Model.Data)
+{
+    <div class="container">
+        <div class="card mb-3" @*style="max-width: 540px;"*@>
+            <div class="row g-0">
+                <div class="col-md-3" style="display: flex; align-items: center">
+                    <img src="https://s3.eu-central-1.amazonaws.com/static.obilet.com/images/partner/@item.PartnerId-sm.png" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="p-2 bd-highlight">Kalkış</div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-2 bd-highlight">Varış</div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="p-2 bd-highlight">@item.Journey.Departure.ToString("HH:mm")</div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-2 bd-highlight">@item.Journey.Arrival.ToString("HH:mm")</div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="card-text">@item.Journey.Origin</span>
+
+                            </div>
+                            <div class="col-md-6">
+                                <span class="card-text">@item.Journey.Destination</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="display: flex; align-items: center">
+                    @*<button type="button" class="btn btn-primary btn-block">
+                        <span class="badge bg-primary">@item.Journey.InternetPrice @item.Journey.Currency</span>
+                        </button>*@
+                    @{
+                        var departureDate = item.Journey.Departure.ToString("yyyy-MM-dd");
+                    }
+                    <a class="btn btn-primary" href="https://www.obilet.com/seferler/@item.OriginLocationId-@item.DestinationLocationId/@departureDate/@item.Id" role="button">@item.Journey.InternetPrice @item.Journey.Currency</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
