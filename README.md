@@ -19,7 +19,8 @@ Project is created with:
 * API consume - Serialize/Deserialize
 * Bootstrap
 * Javascript, jquery, ajax
-* Wangkanai.Detection.Device package for detecting browser
+* [Select2](https://github.com/select2/select2).
+* [Wangkanai.Detection.Device](https://github.com/wangkanai/wangkanai/tree/main/Detection) package for detecting browser
 	
 ## Setup
 There is no database in this project.
