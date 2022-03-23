@@ -69,7 +69,7 @@ public class SessionControl : ISessionControl
         };
 
         //Get response content
-        var responseString = await RequestToAPI.Request(_configuration, "GetSessionApiUrl", session);
+        var responseString = await ApiMethods.Request(_configuration, "GetSessionApiUrl", session);
 
         //Deserialize response content
         var model = JsonSerializer.Deserialize<SessionGetDto>(responseString, new JsonSerializerOptions
@@ -98,7 +98,7 @@ public class SessionControl : ISessionControl
         };
 
         //Get response content
-        var responseString = await RequestToAPI.Request(_configuration, "GetBusLocationsApiUrl", model);
+        var responseString = await ApiMethods.Request(_configuration, "GetBusLocationsApiUrl", model);
 
         //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusLocationsResponseDto>(responseString, new JsonSerializerOptions
@@ -137,7 +137,7 @@ public class SessionControl : ISessionControl
         };
 
         //Get response content
-        var responseString = await RequestToAPI.Request(_configuration, "GetBusJourneysApiUrl", requestModel);
+        var responseString = await ApiMethods.Request(_configuration, "GetBusJourneysApiUrl", requestModel);
 
         //Deserialize response content
         var responseModel = JsonSerializer.Deserialize<GetBusJourneysResponseDto>(responseString, new JsonSerializerOptions

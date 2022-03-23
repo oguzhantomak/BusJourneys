@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BusJourneys.Core.Helper.Methods;
 
-public static class RequestToAPI
+public static class ApiMethods
 {
     public static async Task<string> Request<T>(IConfiguration _configuration, string key, T model)
     {

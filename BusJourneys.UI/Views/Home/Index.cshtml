@@ -151,7 +151,6 @@
                                     <span class="form-label">To</span>
                                     <select class="selectData form-control" id="to" name="to" required>
                                         <option value="@Model.Last().Id" selected>@Model.Last().Name</option>
-
                                     </select>
                                 </div>
                                 <div class="row">
@@ -164,15 +163,12 @@
                                                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time");
                                                 DateTime date = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
                                                 @Html.Hidden("nowDate",date.ToString("yyyy-MM-dd"))
-                                                ;
 
                                                 //Tomorrow date
                                                 DateTime utcTomorrow = DateTime.UtcNow.AddDays(1);
                                                 TimeZoneInfo tzTomorrow = TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time");
                                                 DateTime dateTomorrow = TimeZoneInfo.ConvertTimeFromUtc(utcTomorrow, tzTomorrow);
                                                 @Html.Hidden("tomorrowDate",dateTomorrow.ToString("yyyy-MM-dd"))
-                                                ;
-
                                             }
                                             <input value="@Convert.ToDateTime(ViewBag.Date).ToString("yyyy-MM-dd")" min="@date.ToString("yyyy-MM-dd")" class="form-control" id="date" type="date" name="date" required>
                                         </div>
@@ -204,6 +200,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!-- Select2.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

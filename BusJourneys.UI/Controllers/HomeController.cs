@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BusJourneys.Core.Abstract;
+using BusJourneys.Core.Helper.Methods;
 using BusJourneys.Core.Models.Responses;
 
 namespace BusJourneys.UI.Controllers
@@ -25,19 +26,17 @@ namespace BusJourneys.UI.Controllers
             var list = new List<GetBusLocationsResponseDto.DataDto>();
 
             //Try to get ids from cookie
-            var from = Request.Cookies["from"];
-            var to = Request.Cookies["to"];
-            var date = Request.Cookies["date"];
+            var cookies = await CookieMethods.GetCookies(Request);
 
             // When Index loads if cookie is not null use these to set values to "From", "To" and "Date"
-            if (from != null && to != null && date != null)
+            if (cookies != null)
             {
-                int fromId = Convert.ToInt32(from);
-                int toId = Convert.ToInt32(to);
+                int fromId = Convert.ToInt32(cookies.From);
+                int toId = Convert.ToInt32(cookies.To);
 
                 list.Add(busLocations.Where(x => x.Id == fromId).FirstOrDefault());
                 list.Add(busLocations.Where(x => x.Id == toId).FirstOrDefault());
-                ViewBag.Date = date;
+                ViewBag.Date = cookies.Date;
             }
             else
             {
@@ -52,8 +51,6 @@ namespace BusJourneys.UI.Controllers
                 ViewBag.Date = time.AddDays(1);
 
             }
-
-
 
             return View(list);
         }
@@ -83,12 +80,8 @@ namespace BusJourneys.UI.Controllers
             // Get the bus journeys from api
             var busJourneys = await _sessionControl.GetBusJourneys(from, to, date);
 
-            //Cookie settings for last search
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddHours(1);
-            Response.Cookies.Append("from", from.ToString(), option);
-            Response.Cookies.Append("to", to.ToString(), option);
-            Response.Cookies.Append("date", date.ToString(), option);
+            //Set cookie settings
+            await CookieMethods.SetCookies(Response, from, to, date);
 
             return View(busJourneys);
         }
